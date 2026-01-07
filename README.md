@@ -22,60 +22,63 @@ claude-governance/
 
 ## 🚀 快速开始
 
-### 1. 配置环境变量
+### 一键配置（推荐）
 
 ```bash
-# 复制模板
+# 1. 运行配置脚本
+./bin/setup
+
+# 2. 重新加载 shell 配置
+source ~/.bashrc  # 或 source ~/.zshrc
+
+# 3. 开始使用
+claudex  # 自动加载规则启动 Claude Code
+```
+
+### 手动配置
+
+如果喜欢手动配置：
+
+```bash
+# 1. 配置环境变量
 cp settings/env.template ~/.claude-env
+vim ~/.claude-env  # 填入你的 API token
 
-# 编辑并填入你的 token
-vim ~/.claude-env
-
-# 在 ~/.bashrc 或 ~/.zshrc 中添加
+# 2. 加载环境变量
 echo 'source ~/.claude-env' >> ~/.bashrc
+source ~/.bashrc
+
+# 3. 创建别名
+echo 'alias claudex="~/Documents/dev/cc\ rules/claude-governance/bin/claudex"' >> ~/.bashrc
+echo 'alias update-rules="~/Documents/dev/cc\ rules/claude-governance/bin/update-rules"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
-### 2. 在项目中使用
+## 📖 日常使用
 
-在你的项目根目录创建 `.claude/` 文件夹：
-
-```bash
-cd your-project
-mkdir .claude
-```
-
-参考 `settings/project-template.md` 创建项目配置。
-
-### 3. 配置 MCP（可选）
-
-参考 `mcp/README.md` 配置 MCP servers。
-
-## 📖 使用指南
-
-### 加载全局规则
-
-启动 Claude Code 时加载全局规则：
+### 启动 Claude Code
 
 ```bash
-claude --append-system-prompt "$(cat /path/to/claude-governance/rules/global-rules.md)"
+claudex  # 自动加载全局规则
 ```
 
-或创建别名：
+### 更新规则
 
 ```bash
-# 在 ~/.bashrc 或 ~/.zshrc 中添加
-alias claudex='claude --append-system-prompt "$(cat ~/claude-governance/rules/global-rules.md)"'
+# 1. 编辑规则文件
+vim rules/global-rules.md
+
+# 2. 提交变更（交互式）
+update-rules
 ```
 
-### 使用技能
+详细使用说明请查看 [USAGE.md](USAGE.md)
 
-查看 `skills/` 目录下的技能文件，复制提示词在对话中使用。
+## 🛠️ 工具脚本
 
-例如代码审查：
-```
-请审查我刚才修改的代码，检查代码质量、风格和最佳实践。
-```
+- **`bin/claudex`** - 启动 Claude Code（自动加载规则）
+- **`bin/update-rules`** - 交互式提交规则变更
+- **`bin/setup`** - 一键配置别名
 
 ## 🔧 自定义
 
@@ -99,6 +102,9 @@ vim .claude/context.md      # 项目上下文
 
 ## 📚 文档
 
+- **[USAGE.md](USAGE.md)** - 日常使用指南（启动 Claude Code、更新规则）
+- **[QUICK_START.md](QUICK_START.md)** - 5 分钟快速配置
+- **[API_DOC.md](API_DOC.md)** - API 配置详解
 - `rules/` - 查看所有规则
 - `settings/` - 查看配置模板
 - `skills/` - 查看可用技能

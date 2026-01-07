@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# claudex - Claude Code 启动脚本（自动加载规则）
+
+set -euo pipefail
+
+# 配置
+GOVERNANCE_DIR="$HOME/Documents/dev/cc rules/claude-governance"
+RULES_FILE="$GOVERNANCE_DIR/rules/global-rules.md"
+
+# 颜色
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
+# 检查规则文件是否存在
+if [[ ! -f "$RULES_FILE" ]]; then
+    echo "❌ 规则文件不存在: $RULES_FILE"
+    echo "请确认 claude-governance 仓库位置"
+    exit 1
+fi
+
+# 显示加载信息
+echo -e "${BLUE}[Claude Code]${NC} 加载全局规则..."
+echo -e "${GREEN}✓${NC} 规则文件: $RULES_FILE"
+echo ""
+
+# 读取规则内容
+RULES_CONTENT=$(cat "$RULES_FILE")
+
+# 启动 Claude Code 并加载规则
+claude --append-system-prompt "$RULES_CONTENT" "$@"
